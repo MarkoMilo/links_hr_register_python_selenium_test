@@ -1,5 +1,9 @@
 import random
 import time
+from common import zip_codes_croatia
+from common import choose_zipcode
+from common import months
+
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -9,7 +13,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 
 
-meseci = ["siječanj", "veljača", "ožujak", "travanj", "svibanj", "lipanj", "srpanj", "kolovoz", "rujan", "listopad", "studeni", "prosinac"]
 
 PATH = Service("C:\Program Files (x86)/chromedriver.exe")  # podesi putanju ka Chrome web drajveru
 driver = webdriver.Chrome(service=PATH)
@@ -28,17 +31,27 @@ DateOfBirthDay = driver.find_element(By.NAME, "DateOfBirthDay")
 DateOfBirthDay.send_keys(random.randint(1,12))
 
 DateOfBirthMonth = driver.find_element(By.NAME, "DateOfBirthMonth")
-DateOfBirthMonth.send_keys(random.choice(meseci))  # choice random months
+DateOfBirthMonth.send_keys(random.choice(months))  # choice random months
 
 DateOfBirthYear = driver.find_element(By.NAME, "DateOfBirthYear")
 DateOfBirthYear.send_keys(random.randint(1911,2021)) # choice random yesr between 1911-2021
 
+Email = driver.find_element(By.ID, "Email")
+Email.send_keys("marko87milosavljevic")
+
 street_address = driver.find_element(By.ID, "StreetAddress")
 street_address.send_keys("Majevicka 10")
+street_address.send_keys(Keys.TAB, "21232", Keys.ARROW_DOWN)
 
-zip_code = driver.find_element(By.ID, "fee3dfcd-8d3a-4953-85b3-2f33a82533f9")
-zip_code.send_keys(21232)
+Phone = driver.find_element(By.ID, "Phone")
+Phone.send_keys("+381695361274")
 
-# sity = driver.find_element(By.ID, "7014f550-2f63-4b25-9f84-a34719b76535")
-# sity.send_keys("Split")
 
+newsletter = driver.find_element(By.ID, "Newsletter")
+newsletter.click()
+
+Password = driver.find_element(By.ID, "Password")
+Password.send_keys("password")
+
+confirm_password = driver.find_element(By.ID, "ConfirmPassword")
+confirm_password.send_keys("password")
