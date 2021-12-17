@@ -37,9 +37,9 @@ DateOfBirthYear = driver.find_element(By.NAME, "DateOfBirthYear")
 DateOfBirthYear.send_keys(random.randint(1911,2021)) # choice random yesr between 1911-2021
 
 Email = driver.find_element(By.ID, "Email")
-Email.send_keys("marko87milosavljevic")
+Email.send_keys("marko87milosavljevic@gmail.com")
 
-street_address = driver.find_element(By.ID, "StreetAddress")
+street_address = driver.find_element(By.XPATH, "//input[@id='StreetAddress']")
 street_address.send_keys("Majevicka 10")
 street_address.send_keys(Keys.TAB, "21232", Keys.ARROW_DOWN)
 
