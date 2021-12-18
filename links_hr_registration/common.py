@@ -1,4 +1,5 @@
 import random
+import string
 
 zip_codes_croatia = \
     {"ALJMAŠ": "31205",
@@ -898,8 +899,14 @@ zip_codes_croatia = \
      "ŽUPANJA": "32270",
      "ZVEČAJ": "47261"}
 
-months = ["siječanj", "veljača", "ožujak", "travanj", "svibanj", "lipanj", "srpanj", "kolovoz", "rujan", "listopad", "studeni", "prosinac"]
+months = ["siječanj", "veljača", "ožujak", "travanj", "svibanj", "lipanj", "srpanj", "kolovoz", "rujan", "listopad",
+          "studeni", "prosinac"]
 
 
 def choose_zipcode():
     return random.choice(list(zip_codes_croatia.items()))
+
+
+def random_string():
+    return ''.join(
+        random.choices(string.ascii_lowercase + string.ascii_uppercase + string.digits, k=random.randint(0, 20)))
