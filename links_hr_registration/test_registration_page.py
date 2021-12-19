@@ -112,80 +112,32 @@ tc_13_1 = []
 
 def test_tc_13_1():
     driver.get(WEBSITE_URL)
-    # driver.implicitly_wait(10)
-    WebDriverWait(driver, 20).until(
-        EC.element_to_be_clickable((By.ID, random.choice(GENDER)))).click()
     WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.ID, "FirstName"))).send_keys("Marko")
     WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.ID, "LastName"))).send_keys("Milosavljevic")
     WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.NAME, "DateOfBirthDay"))).send_keys(random.randint(1, 12))
-    WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.NAME, "DateOfBirthMonth"))).send_keys(
-        random.choice(months))  # choice random months
-    WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.NAME, "DateOfBirthYear"))).send_keys(
-        random.randint(1911, 2021))  # choice random year between 1911-2021
-    WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.ID, "Email"))).send_keys("marko87milosavljevic+test10@gmail.com")
-    street_address = driver.find_element(By.ID, "StreetAddress")
-    street_address.send_keys("Majevicka 10")
-    street_address.send_keys(Keys.TAB, choose_zipcode()[1], Keys.ARROW_DOWN)
-    WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.ID, "Phone"))).send_keys("+381695361274")
-    WebDriverWait(driver, 20).until(
-        EC.element_to_be_clickable((By.ID, "Newsletter"))).click()
+        EC.presence_of_element_located((By.ID, "Email"))).send_keys("mmgarkomilosavljevic116@gmail.com")
     WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.ID, "Password"))).send_keys("password")
-    WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.ID, "ConfirmPassword"))).send_keys("password")
+    confirm = driver.find_element(By.ID, "ConfirmPassword")
+    confirm.send_keys("password")
+    confirm.send_keys(Keys.TAB, Keys.ENTER)
+    continue_registration = driver.find_element(By.CSS_SELECTOR, "body.color-neutral.notAndroid23:nth-child(2) "
+                                                                 "div.master-wrapper-page:nth-child(12) "
+                                                                 "div.master-wrapper-content "
+                                                                 "div.master-wrapper-main:nth-child(8) div.center-1 "
+                                                                 "div.page.registration-result-page:nth-child(1) "
+                                                                 "div.page-body div.buttons > "
+                                                                 "input.button-1.register-continue-button")
+    print("\n\n++++++++++++++++++++++++++++++++++++++++++\n\n",continue_registration.text)
+    assert continue_registration
+    continue_registration.click()
 
-    WebDriverWait(driver, 100).until(
-        EC.element_to_be_clickable((By.CLASS_NAME, "button-1 register-next-step-button"))).click()
-
-    # driver.find_element(By.ID, random.choice(GENDER)).click()
-    # driver.implicitly_wait(4)
-    # driver.find_element(By.ID, "FirstName").send_keys("Marko")
-    # driver.implicitly_wait(4)
-    # driver.find_element(By.ID, "LastName").send_keys("Milosavljevic")
-    # driver.implicitly_wait(4)
-    # driver.find_element(By.NAME, "DateOfBirthDay").send_keys(random.randint(1, 12))
-    # driver.implicitly_wait(4)
-    # driver.find_element(By.NAME, "DateOfBirthMonth").send_keys(random.choice(months))  # choice random months
-    # driver.implicitly_wait(4)
-    # driver.find_element(By.NAME, "DateOfBirthYear").send_keys(random.randint(1911, 2021))  # choice random year between 1911-2021
-    # driver.implicitly_wait(4)
-    # driver.find_element(By.ID, "Email").send_keys("marko87milosavljevic+test10@gmail.com")
-    # driver.implicitly_wait(4)
-    # street_address = driver.find_element(By.ID, "StreetAddress")
-    # driver.implicitly_wait(4)
-    # street_address.send_keys("Majevicka 10")
-    # driver.implicitly_wait(4)
-    # street_address.send_keys(Keys.TAB, choose_zipcode()[1], Keys.ARROW_DOWN)
-    # driver.implicitly_wait(4)
-    # driver.find_element(By.ID, "Phone").send_keys("+381695361274")
-    # driver.implicitly_wait(4)
-    # driver.find_element(By.ID, "Newsletter").click()
-    # driver.implicitly_wait(4)
-    # driver.find_element(By.ID, "Password").send_keys("password")
-    # driver.implicitly_wait(4)
-    # driver.find_element(By.ID, "ConfirmPassword").send_keys("password")
-    # driver.implicitly_wait(4)
-
-    # WebDriverWait(driver, 20).until(
-    #     EC.element_to_be_clickable((By.CSS_SELECTOR, "#register-button"))).click()
-
-    # EC.element_to_be_clickable((By.XPATH, "//input[@id='register-button']"))).click()
+    # text_to_be_present_in_element_value
 
 
-    # driver.find_element(By.ID, "register-button").click()
-    # driver.implicitly_wait(4)
-    # sub = driver.find_element(By.ID, "result")
-    # driver.implicitly_wait(4)
-    # print(sub.text)
-
-"""tc_15_1 = []
+tc_15_1 = []
 
 
 def test_tc_15_1():
@@ -206,7 +158,7 @@ def test_tc_15_1():
         EC.presence_of_element_located((By.NAME, "DateOfBirthYear"))).send_keys(
         random.randint(1911, 2021))  # choice random year between 1911-2021
     WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.ID, "Email"))).send_keys("marko87milosavljevic+test10@gmail.com")
+        EC.presence_of_element_located((By.ID, "Email"))).send_keys("marko87milosavljevic+test20@gmail.com")
     street_address = driver.find_element(By.ID, "StreetAddress")
     street_address.send_keys("Majevicka 10")
     street_address.send_keys(Keys.TAB, choose_zipcode()[1], Keys.ARROW_DOWN)
@@ -216,11 +168,21 @@ def test_tc_15_1():
         EC.element_to_be_clickable((By.ID, "Newsletter"))).click()
     WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.ID, "Password"))).send_keys("password")
-    WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.ID, "ConfirmPassword"))).send_keys("password")
+    confirm=driver.find_element(By.ID, "ConfirmPassword")
+    confirm.send_keys("password")
+    confirm.send_keys(Keys.TAB, Keys.ENTER)
+    continue_registration = driver.find_element(By.CSS_SELECTOR, "body.color-neutral.notAndroid23:nth-child(2) "
+                                                                 "div.master-wrapper-page:nth-child(12) "
+                                                                 "div.master-wrapper-content "
+                                                                 "div.master-wrapper-main:nth-child(8) div.center-1 "
+                                                                 "div.page.registration-result-page:nth-child(1) "
+                                                                 "div.page-body div.buttons > "
+                                                                 "input.button-1.register-continue-button")
+    print("\n\n++++++++++++++++++++++++++++++++++++++++++\n\n", continue_registration.text)
+    assert continue_registration
+    continue_registration.click()
 
-    WebDriverWait(driver, 100).until(
-        EC.element_to_be_clickable((By.CLASS_NAME, "button-1 register-next-step-button"))).click()"""
+
 # tc_11_1 = []
 # def test_tc_11_1():
 #     birthday = driver.find_element(By.NAME, "DateOfBirthDay")

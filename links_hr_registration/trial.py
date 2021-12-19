@@ -2,6 +2,7 @@
 This is file just for testing python features, a small piece of code.
 IGNORE this file
 """
+from selenium.common.exceptions import NoSuchElementException
 
 """
 RUN TESTS FROM TERMINAL:
@@ -30,6 +31,28 @@ driver = webdriver.Chrome(service=PATH)
 driver.get(WEBSITE_URL)  # Open website using webdriver
 driver.implicitly_wait(10)
 
+
+# try:
+#     element=driver.find_element(By.CLASS_NAME, "text-box single-line valid")
+# except NoSuchElementException:
+#     print("No element found")
+
+try:
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#newsletter-subscribe-button")))
+    not_found = False
+    print(not_found)
+except:
+    not_found = True
+    print(not_found)
+
+
+
+
+# assert not_found
+# myElementList = driver.find_element((By.XPATH, "//input[@id='newsletter-subscribe-button']"))
+# if (myElementList.is_displayed()):
+#     print("postoji")
+    # The element doesn't exist. findElements, in plural, returns a list of the matching elements, or an empty list if no one is found
 
 """
 submit = driver.find_element(By.ID, "register-button")
