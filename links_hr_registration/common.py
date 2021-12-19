@@ -907,6 +907,6 @@ def choose_zipcode():
     return random.choice(list(zip_codes_croatia.items()))
 
 
-def random_string():
+def random_string(lenn = 20):
     return ''.join(
-        random.choices(string.ascii_lowercase + string.ascii_uppercase + string.digits, k=random.randint(0, 20)))
+        random.choices(string.ascii_lowercase + string.ascii_uppercase + string.digits, k=lenn))

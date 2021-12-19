@@ -2,7 +2,7 @@
 This is file just for testing python features, a small piece of code.
 IGNORE this file
 """
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 """
 RUN TESTS FROM TERMINAL:
@@ -14,6 +14,7 @@ import time
 from common import zip_codes_croatia
 from common import choose_zipcode
 from common import months
+from common import random_string
 import pytest
 
 from selenium import webdriver
@@ -31,54 +32,43 @@ driver = webdriver.Chrome(service=PATH)
 driver.get(WEBSITE_URL)  # Open website using webdriver
 driver.implicitly_wait(10)
 
-
-# try:
-#     element=driver.find_element(By.CLASS_NAME, "text-box single-line valid")
-# except NoSuchElementException:
-#     print("No element found")
+# buttons = driver.find_elements(By.CSS_SELECTOR, "body.color-neutral.notAndroid23:nth-child(2) "
+#                                                                  "div.master-wrapper-page:nth-child(12) "
+#                                                                  "div.master-wrapper-content "
+#                                                                  "div.master-wrapper-main:nth-child(8) div.center-1 "
+#                                                                  "div.page.registration-result-page:nth-child(1) "
+#                                                                  "div.page-body div.buttons > "
+#                                                                  "input.button-1.register-continue-button")
 
 try:
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#newsletter-subscribe-button")))
-    not_found = False
-    print(not_found)
-except:
-    not_found = True
-    print(not_found)
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "body.color-neutral.notAndroid23:nth-child(2) "
+                                                                 "div.master-wrapper-page:nth-child(12) "
+                                                                 "div.master-wrapper-content "
+                                                                 "div.master-wrapper-main:nth-child(8) div.center-1 "
+                                                                 "div.page.registration-result-page:nth-child(1) "
+                                                                 "div.page-body div.buttons > "
+                                                                 "input.button-1.register-continue-button")))
+except TimeoutException:
+    assert "Element doesn't exist"
 
 
 
+try:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "body.color-neutral.notAndroid23:nth"
+                                                                                 "-child(2) "
+                                                                                 "div.master-wrapper-page:nth-child("
+                                                                                 "12) div.header-menu:nth-child(8) "
+                                                                                 "ul.mega-menu:nth-child(3) "
+                                                                                 "li.mega-menu-responsive-root-hide:nth-child(1) > a.submenuLink.akcije")))
+except TimeoutException:
+    assert not "Element doesn't exist"
 
-# assert not_found
-# myElementList = driver.find_element((By.XPATH, "//input[@id='newsletter-subscribe-button']"))
-# if (myElementList.is_displayed()):
-#     print("postoji")
-    # The element doesn't exist. findElements, in plural, returns a list of the matching elements, or an empty list if no one is found
+# print(driver.find_element(By.CSS_SELECTOR, "body.color-neutral.notAndroid23:nth-child(2) "
+#                                                                  "div.master-wrapper-page:nth-child(12) "
+#                                                                  "div.master-wrapper-content "
+#                                                                  "div.master-wrapper-main:nth-child(8) div.center-1 "
+#                                                                  "div.page.registration-result-page:nth-child(1) "
+#                                                                  "div.page-body div.buttons > "
+#                                                                  "input.button-1.register-continue-button"))
 
-"""
-submit = driver.find_element(By.ID, "register-button")
-submit.click()
-driver.implicitly_wait(1)
 
-username = WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.CLASS_NAME, "customer-blocks")))
-x = username.get_attribute("mandatory")
-print("*******",x)
-# assert username.get_attribute("field-validation-error") == "Elektronska pošta je potrebna"
-"""
-
-# password = driver.find_element(By.ID, "Password")
-# password.send_keys("password")
-# driver.implicitly_wait(1)
-#
-# confirm_password = driver.find_element(By.ID, "ConfirmPassword")
-# confirm_password.send_keys("password1")
-# driver.implicitly_wait(1)
-#
-#
-# pass_confirmation_message = driver.find_element(By.TAG_NAME, "text-box single-line password input-validation-error")
-# print(pass_confirmation_message)
-
-# listItems = driver.find_elements(By.TAG_NAME, "li")
-# for e in listItems:
-#     isRequired = e.get_attribute("data-automation-id")
-#     if isRequired!="" and "Required" in isRequired:
-#         print(e.find_element_by_xpath(".//div/label").text)

@@ -1,5 +1,8 @@
 import random
 import time
+
+from selenium.common.exceptions import TimeoutException
+
 from common import zip_codes_croatia
 from common import choose_zipcode
 from common import months
@@ -107,21 +110,37 @@ def test_tc_12_1(email):
     # assert not_found, f"\n\nTest Case: tc_7_1.\n"
 
 
-tc_13_1 = []
+tc_13_1 = {"first_name": random_string(10), "last_name": random_string(10),
+           "email": "marko87milosavljevi+{}@gmail.com".format(random_string(4)),
+           "password": "password",
+           "confirm_password": "password"}
+tc_13_2 = {"first_name": random_string(10), "last_name": random_string(10),
+           "email": "marko87milosavljevi+{}@gmail.com".format(random_string(4)),
+           "password": "password1",
+           "confirm_password": "password1"}
+tc_13_3 = {"first_name": random_string(10), "last_name": random_string(10),
+           "email": "marko87milosavljevi+{}@gmail.com".format(random_string(4)),
+           "password": "passwordWEF",
+           "confirm_password": "passwordWEF"}
+tc_13_4 = {"first_name": random_string(10), "last_name": random_string(10),
+           "email": "marko87milosavljevi+{}@gmail.com".format(random_string(4)),
+           "password": "password1QW",
+           "confirm_password": "password1QW"}
 
 
-def test_tc_13_1():
+@pytest.mark.parametrize("tc", [tc_13_1, tc_13_2, tc_13_3,tc_13_4])
+def test_tc_13_1(tc):
     driver.get(WEBSITE_URL)
     WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.ID, "FirstName"))).send_keys("Marko")
+        EC.presence_of_element_located((By.ID, "FirstName"))).send_keys(tc.get("first_name"))
     WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.ID, "LastName"))).send_keys("Milosavljevic")
+        EC.presence_of_element_located((By.ID, "LastName"))).send_keys(tc.get("last_name"))
     WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.ID, "Email"))).send_keys("mmgarkomilosavljevic116@gmail.com")
+        EC.presence_of_element_located((By.ID, "Email"))).send_keys(tc.get("email"))
     WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.ID, "Password"))).send_keys("password")
+        EC.presence_of_element_located((By.ID, "Password"))).send_keys(tc.get("password"))
     confirm = driver.find_element(By.ID, "ConfirmPassword")
-    confirm.send_keys("password")
+    confirm.send_keys(tc.get("confirm_password"))
     confirm.send_keys(Keys.TAB, Keys.ENTER)
     continue_registration = driver.find_element(By.CSS_SELECTOR, "body.color-neutral.notAndroid23:nth-child(2) "
                                                                  "div.master-wrapper-page:nth-child(12) "
@@ -130,12 +149,63 @@ def test_tc_13_1():
                                                                  "div.page.registration-result-page:nth-child(1) "
                                                                  "div.page-body div.buttons > "
                                                                  "input.button-1.register-continue-button")
-    print("\n\n++++++++++++++++++++++++++++++++++++++++++\n\n",continue_registration.text)
+    print("\n\n++++++++++++++++++++++++++++++++++++++++++\n\n", continue_registration.text)
     assert continue_registration
-    continue_registration.click()
+    # continue_registration.click()
 
     # text_to_be_present_in_element_value
 
+tc_14_1 = {"first_name": "", "last_name": random_string(10),
+           "email": "marko87milosavljevi+{}@gmail.com".format(random_string(4)),
+           "password": "password",
+           "confirm_password": "password"}
+tc_14_2 = {"first_name": random_string(10), "last_name": "random_string(10)",
+           "email": "marko87milosavljevi+{}@gmail.com".format(random_string(4)),
+           "password": "password1",
+           "confirm_password": "password1"}
+tc_14_3 = {"first_name": random_string(10), "last_name": random_string(10),
+           "email": "".format(random_string(4)),
+           "password": "passwordWEF",
+           "confirm_password": "passwordWEF"}
+tc_14_4 = {"first_name": random_string(10), "last_name": random_string(10),
+           "email": "marko87milosavljevi+{}@gmail.com".format(random_string(4)),
+           "password": "",
+           "confirm_password": ""}
+
+
+@pytest.mark.parametrize("tc_14", [tc_14_1, tc_14_2, tc_14_3,tc_14_4])
+def test_tc_14_1(tc_14):
+    driver.get(WEBSITE_URL)
+    WebDriverWait(driver, 20).until(
+        EC.presence_of_element_located((By.ID, "FirstName"))).send_keys(tc_14.get("first_name"))
+    WebDriverWait(driver, 20).until(
+        EC.presence_of_element_located((By.ID, "LastName"))).send_keys(tc_14.get("last_name"))
+    WebDriverWait(driver, 20).until(
+        EC.presence_of_element_located((By.ID, "Email"))).send_keys(tc_14.get("email"))
+    WebDriverWait(driver, 20).until(
+        EC.presence_of_element_located((By.ID, "Password"))).send_keys(tc_14.get("password"))
+    confirm = driver.find_element(By.ID, "ConfirmPassword")
+    confirm.send_keys(tc_14.get("confirm_password"))
+    confirm.send_keys(Keys.TAB, Keys.ENTER)
+    try:
+        WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "body.color-neutral.notAndroid23:nth-child(2) "
+                                                         "div.master-wrapper-page:nth-child(12) "
+                                                         "div.master-wrapper-content "
+                                                         "div.master-wrapper-main:nth-child(8) div.center-1 "
+                                                         "div.page.registration-result-page:nth-child(1) "
+                                                         "div.page-body div.buttons > "
+                                                         "input.button-1.register-continue-button")))
+    except TimeoutException:
+        assert "Element doesn't exist"
+    # assert not driver.find_element(By.CSS_SELECTOR, "body.color-neutral.notAndroid23:nth-child(2) "
+    #                                                              "div.master-wrapper-page:nth-child(12) "
+    #                                                              "div.master-wrapper-content "
+    #                                                              "div.master-wrapper-main:nth-child(8) div.center-1 "
+    #                                                              "div.page.registration-result-page:nth-child(1) "
+    #                                                              "div.page-body div.buttons > "
+    #                                                              "input.button-1.register-continue-button")
+    # print("\n\n++++++++++++++++++++++++++++++++++++++++++\n\n", continue_registration.text)
 
 tc_15_1 = []
 
@@ -168,7 +238,7 @@ def test_tc_15_1():
         EC.element_to_be_clickable((By.ID, "Newsletter"))).click()
     WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.ID, "Password"))).send_keys("password")
-    confirm=driver.find_element(By.ID, "ConfirmPassword")
+    confirm = driver.find_element(By.ID, "ConfirmPassword")
     confirm.send_keys("password")
     confirm.send_keys(Keys.TAB, Keys.ENTER)
     continue_registration = driver.find_element(By.CSS_SELECTOR, "body.color-neutral.notAndroid23:nth-child(2) "
@@ -181,7 +251,6 @@ def test_tc_15_1():
     print("\n\n++++++++++++++++++++++++++++++++++++++++++\n\n", continue_registration.text)
     assert continue_registration
     continue_registration.click()
-
 
 # tc_11_1 = []
 # def test_tc_11_1():
