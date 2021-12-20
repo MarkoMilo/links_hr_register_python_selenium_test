@@ -10,6 +10,8 @@ openpyxl = "*"
 pytest-html-reporter = "*"
 pytest-html = "*"
 allure-pytest = "*"
+install = "*"
+pytest-repeat = "*"
 
 [dev-packages]
 

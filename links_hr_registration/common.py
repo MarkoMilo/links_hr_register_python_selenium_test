@@ -1,6 +1,25 @@
 import random
 import string
 
+
+def get_var_name(var):
+    vnames = [name for name in globals() if globals()[name] is var]
+    return vnames[-1]
+
+
+months = ["siječanj", "veljača", "ožujak", "travanj", "svibanj", "lipanj", "srpanj", "kolovoz", "rujan", "listopad",
+          "studeni", "prosinac"]
+
+
+def choose_zipcode():
+    return random.choice(list(zip_codes_croatia.items()))
+
+
+def random_string(lenn=20):
+    return ''.join(
+        random.choices(string.ascii_lowercase + string.ascii_uppercase + string.digits, k=lenn))
+
+
 zip_codes_croatia = \
     {"ALJMAŠ": "31205",
      "ANTUNOVAC": "31216",
@@ -898,15 +917,3 @@ zip_codes_croatia = \
      "ŽUPA": "21273",
      "ŽUPANJA": "32270",
      "ZVEČAJ": "47261"}
-
-months = ["siječanj", "veljača", "ožujak", "travanj", "svibanj", "lipanj", "srpanj", "kolovoz", "rujan", "listopad",
-          "studeni", "prosinac"]
-
-
-def choose_zipcode():
-    return random.choice(list(zip_codes_croatia.items()))
-
-
-def random_string(lenn = 20):
-    return ''.join(
-        random.choices(string.ascii_lowercase + string.ascii_uppercase + string.digits, k=lenn))
