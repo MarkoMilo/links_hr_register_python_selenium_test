@@ -29,24 +29,22 @@ def test_setup():
     driver.implicitly_wait(10)
     driver.maximize_window()
     driver.implicitly_wait(5)
-    # driver.close()
 
 
-def test_tc_1_1():
+@pytest.fixture()
+def test_tc_1_0():
     """
     TC_1_1 Verify that webpage exists
     :return:
     """
     driver.get(WEBSITE_URL)  # Open website
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(20)
     site_title = driver.title
     assert site_title == "Registrirajte se - Links"
 
 
 @pytest.mark.parametrize("pswd, conf_pswd, text1", [(tc_9_1[0], tc_9_1[1], tc_9_1[2])])
-def test_tc_9_1(pswd, conf_pswd, text1):
-    driver.get(WEBSITE_URL)  # Open website
-    driver.implicitly_wait(1)
+def test_tc_9_0(test_tc_1_0, pswd, conf_pswd, text1):
     password = driver.find_element(By.ID, "Password")
     password.send_keys(pswd)
     assert password.is_displayed()
@@ -54,13 +52,10 @@ def test_tc_9_1(pswd, conf_pswd, text1):
     confirm_password.send_keys(conf_pswd)
     attach(data=driver.get_screenshot_as_png())
     assert confirm_password.is_displayed()
-    # driver.quit()
 
 
 @pytest.mark.parametrize("password1, confirmation_password, text1", [(tc_10_1[0], tc_10_1[1], tc_10_1[2])])
-def test_tc_10_1(password1, confirmation_password, text1):
-    driver.get(WEBSITE_URL)  # Open website
-    driver.implicitly_wait(5)
+def test_tc_10_0(test_tc_1_0, password1, confirmation_password, text1):
     password = driver.find_element(By.ID, "Password")
     password.send_keys(password1)
 
@@ -73,7 +68,7 @@ def test_tc_10_1(password1, confirmation_password, text1):
                      f"\nActual status {tmp.text}.\n"
 
 
-def test_tc_7_1():
+def test_tc_7_0():
     driver.get(WEBSITE_URL)  # Open website
     try:
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, By.ID, "register-button")))
@@ -81,12 +76,10 @@ def test_tc_7_1():
     except:
         not_found = True
     assert not_found, f"\n\nTest Case: tc_7_1.\n"
-    # driver.quit()
 
 
 @pytest.mark.parametrize("email", [i for i in tc_12_1])
-def test_tc_12_1(email):
-    driver.get(WEBSITE_URL)
+def test_tc_12_0(test_tc_1_0, email):
     driver.implicitly_wait(1)
     wrong_email_format = driver.find_element(By.ID, "Email")
     wrong_email_format.send_keys(email, Keys.TAB)
@@ -98,8 +91,7 @@ def test_tc_12_1(email):
 
 
 @pytest.mark.parametrize("tc", [tc_13_1, tc_13_2, tc_13_3, tc_13_4])
-def test_tc_13(tc):
-    driver.get(WEBSITE_URL)
+def test_tc_13_0(test_tc_1_0, tc):
     WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.ID, "FirstName"))).send_keys(tc.get("first_name"))
     WebDriverWait(driver, 20).until(
@@ -117,8 +109,7 @@ def test_tc_13(tc):
 
 
 @pytest.mark.parametrize("tc_14", [tc_14_1, tc_14_2, tc_14_3, tc_14_4])
-def test_tc_14_1(tc_14):
-    driver.get(WEBSITE_URL)
+def test_tc_14_0(test_tc_1_0, tc_14):
     WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.ID, "FirstName"))).send_keys(tc_14.get("first_name"))
     WebDriverWait(driver, 20).until(
@@ -143,10 +134,8 @@ def test_tc_14_1(tc_14):
         assert "Element doesn't exist"
 
 
-
 @pytest.mark.parametrize("tc_15", [tc_15_1])
-def test_tc_15_1(tc_15):
-    driver.get(WEBSITE_URL)
+def test_tc_15_0(test_tc_1_0, tc_15):
     driver.implicitly_wait(10)
     driver.maximize_window()
     WebDriverWait(driver, 20).until(
@@ -170,8 +159,8 @@ def test_tc_15_1(tc_15):
     street_address.send_keys(Keys.TAB, tc_15.get("zipcode"), Keys.ARROW_DOWN)
     WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.ID, "Phone"))).send_keys(tc_15.get("phone"))
-    # WebDriverWait(driver, 20).until(
-    #     EC.element_to_be_clickable((By.ID, "Newsletter"))).click()
+    WebDriverWait(driver, 20).until(
+        EC.element_to_be_clickable((By.ID, "Newsletter"))).send_keys("\n")  #click()
     WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.ID, "Password"))).send_keys(tc_15.get("password"))
     confirm = driver.find_element(By.ID, "ConfirmPassword")
@@ -181,3 +170,7 @@ def test_tc_15_1(tc_15):
     print("\n\n++++++++++++++++++++++++++++++++++++++++++\n\n", continue_registration.text)
     assert continue_registration
     continue_registration.click()
+
+
+def test_close(test_tc_1_0):
+    driver.quit()
