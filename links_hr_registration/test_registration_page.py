@@ -3,6 +3,7 @@ from common import random_string
 from test_cases import tc_10_1, tc_9_1, tc_12_1, tc_13_1, tc_13_2, tc_13_3, \
     tc_13_4, tc_14_1, tc_14_2, tc_14_3, tc_14_4, tc_15_1
 import pytest
+import pytest_repeat
 from pytest_html_reporter import attach
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -43,6 +44,7 @@ def test_tc_1_0():
     assert site_title == "Registrirajte se - Links"
 
 
+@pytest.mark.repeat(3)
 @pytest.mark.parametrize("pswd, conf_pswd, text1", [(tc_9_1[0], tc_9_1[1], tc_9_1[2])])
 def test_tc_9_0(test_tc_1_0, pswd, conf_pswd, text1):
     password = driver.find_element(By.ID, "Password")
